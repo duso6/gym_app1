@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:gym_app1/features/settings/presentation/edit_profile_screen.dart';
 import '../../../core/theme/app_colors.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -36,7 +37,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: "Edit Profile", // 👈 Profile is now here
                 textColor: textColor,
                 onTap: () {
-                  // Navigate to Edit Profile Screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfileScreen(),
+                    ),
+                  );
                 },
               ),
               _buildDivider(isDarkMode),

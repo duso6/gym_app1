@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^2.2.3
   smooth_page_indicator: ^2.0.1
   mobile_scanner: ^5.2.3
+  image_picker: ^1.2.1
 
 dev_dependencies:
   flutter_test:
