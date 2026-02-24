@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:gym_app1/features/settings/presentation/edit_profile_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Add this for Logout
 import '../../../core/theme/app_colors.dart';
+import 'edit_profile_screen.dart'; // Make sure this import is here
+import '../../auth/presentation/login_screen.dart'; // Add this for Logout redirect
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -11,11 +13,20 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  bool _notificationsEnabled = true;
+  // ⚡️ Logout Logic
+  Future<void> _handleLogout() async {
+    await FirebaseAuth.instance.signOut();
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        (route) => false,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // These variables allow us to check the current theme mode
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDarkMode ? AppColors.darkText : AppColors.lightText;
     final cardColor = isDarkMode
@@ -34,7 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               _buildListTile(
                 icon: Icons.person_outline,
-                title: "Edit Profile", // 👈 Profile is now here
+                title: "Edit Profile",
                 textColor: textColor,
                 onTap: () {
                   Navigator.push(
@@ -46,62 +57,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 },
               ),
               _buildDivider(isDarkMode),
-              _buildListTile(
-                icon: Icons.lock_outline,
-                title: "Change Password",
-                textColor: textColor,
-                onTap: () {},
-              ),
-              _buildDivider(isDarkMode),
+              // Changed from "Payment Methods" to "Billing Details"
               _buildListTile(
                 icon: Icons.credit_card,
-                title: "Payment Methods",
+                title: "Billing Details",
                 textColor: textColor,
-                onTap: () {},
+                onTap: () {
+                  // TODO: Navigate to Billing Screen
+                },
               ),
             ],
           ),
 
           const SizedBox(height: 24),
 
-          // --- SECTION 2: APP SETTINGS ---
-          _buildSectionHeader("App Settings", textColor),
-          _buildSettingsContainer(
-            cardColor,
-            children: [
-              SwitchListTile.adaptive(
-                activeColor: AppColors.primaryRed,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 4,
-                ),
-                title: Row(
-                  children: [
-                    const Icon(
-                      Icons.notifications_outlined,
-                      color: AppColors.primaryRed,
-                      size: 22,
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      "Notifications",
-                      style: GoogleFonts.poppins(
-                        fontSize: 14,
-                        color: textColor,
-                      ),
-                    ),
-                  ],
-                ),
-                value: _notificationsEnabled,
-                onChanged: (val) => setState(() => _notificationsEnabled = val),
-              ),
-              // Note: Dark Mode & Language removed as requested
-            ],
-          ),
-
-          const SizedBox(height: 24),
-
-          // --- SECTION 3: SUPPORT ---
+          // --- SECTION 2: SUPPORT ---
+          // (App Settings / Notifications section completely removed)
           _buildSectionHeader("Support", textColor),
           _buildSettingsContainer(
             cardColor,
@@ -129,9 +100,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             width: double.infinity,
             height: 55,
             child: ElevatedButton(
-              onPressed: () {
-                // Implement Logout Logic
-              },
+              onPressed: _handleLogout, // 👈 Hooked up the logout logic
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryRed,
                 shape: RoundedRectangleBorder(

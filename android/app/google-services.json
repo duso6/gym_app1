@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "209324799297",
+    "project_id": "two-easy-gym",
+    "storage_bucket": "two-easy-gym.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209324799297:android:f4bd8dd452af49bd349dc0",
+        "android_client_info": {
+          "package_name": "com.example.gym_app1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPqp9GqQxpLkqCuPWhMhXAWhgbjplbj-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
